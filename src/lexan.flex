@@ -15,7 +15,7 @@ Char = [^\r\n]
 Espaco = {FimLinha} | [ \t\f]
 ComentarioLinha = "//" {Char}* {FimLinha}?
 ComentarioGeral = "/*" [^*] ~"*/" | "/*" "*"+ "/"
-Numero = [0-9][0-9]*
+Numero = [0-9]+
 Identificador = [a-zA-Z][a-zA-Z0-9_]*
 
 %%

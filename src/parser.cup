@@ -38,7 +38,7 @@ instrucao2 ::= PONTOVIRG instrucao
       |
       ;
 
-declaracao ::= DEF ID APARENT args FPARENT IGUAL expressao;
+definicao ::= DEF ID APARENT args FPARENT IGUAL expressao;
 
 args ::= ID args2;
 
@@ -47,7 +47,7 @@ args2 ::= VIRG args
       ;
 
 sequencia ::= expressao
-      | sequencia expressao
+      | sequencia VIRG expressao
       ;
 
 expressao ::= NUM
@@ -58,4 +58,16 @@ expressao ::= NUM
 
 expressao2 ::= APARENT sequencia FPARENT
       |
+      ;
+
+opRel ::= MENOR
+      | MAIOR
+      | IGUAL
+      ;
+
+
+opArit ::= MAIS
+      | MENOS
+      | MULT
+      | DIVISAO
       ;
