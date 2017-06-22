@@ -24,6 +24,10 @@ non terminal opRel;
 non terminal opArit;
 
 
+/* Precedencia */
+precedence left MAIS, MENOS;
+precedence left MULT, DIVISAO;
+
 
 /* Producoes */
 start with programa;
