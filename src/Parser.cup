@@ -1,7 +1,8 @@
 import java_cup.runtime.*;
+import arvoresintatica.*;
+
 
 parser code {:
-	private No arv = null;
 :}
 
 /* Terminais */
@@ -37,77 +38,123 @@ start with programa;
 
 programa ::= ID ATR NUM PONTOVIRG programa:p
 			{:
-				arv = new No("programa");
-				arv.novoFilho("id", id.value);
-				arv.novoFilho("=");
-				arv.novoFilho("num", Integer);
-				arv.novoFilho(";");
-				arv.novoFilho(p);
-				RESULT = arv;
+				RESULT = new Programa(ID.value, NUM.value, p);
 			:}
       | instrucao:i
       	{:
-      		arv = new No("programa");
-			arv.novoFilho(i);
-      		RESULT = arv;
+      		RESULT = i;
       	:} 
       ;
 
 instrucao ::= definicao:d instrucao2:i2;
 			{:
-				arv = new No("instrucao");
-				arv.novoFilho(d);
-				arv.novoFilho(id2);
-				RESULT = arv;
-			
+				RESULT = new Instrucao(d, i2);
 			:}
 
 instrucao2 ::= PONTOVIRG instrucao:i
 			{:
-				arv = new No("instrucao2");
-				arv.novoFilho(";");
-				arv.novoFilho(i);
-				RESULT = arv;
+				RESULT = i;
 			:}
       |
+     		 {:
+				RESULT = NULL;
+			:}
+      		
       ;
 
-definicao ::= DEF ID APARENT args FPARENT IGUAL expressao;
+definicao ::= DEF ID APARENT args FPARENT ATR expressao
 			{:
-				arv = new No("definicao");
-				arv.novoFilho("def");
-				arv.novoFilho();
-				RESULT = arv;
+				RESULT = new Def("def", ID.value, args, expressao);
 			:}
-
-args ::= ID args2;
+		;
+		
+		
+args ::= ID args2
+			{:
+				RESULT = new Args(ID.value, args2);
+			:}
+		;
 
 args2 ::= VIRG args
+			{:
+				RESULT = args;
+			:}
       |
+      		{:
+				RESULT = NULL;
+			:}	
       ;
 
 sequencia ::= expressao
+			{:
+				RESULT = expressao;
+			:}
       | sequencia VIRG expressao
+      		{:
+				RESULT = new Sequencia(sequencia, ",", expressao);
+			:}
       ;
 
-expressao ::= NUM
-      | IF expressao opRel expressao THEN expressao ELSE expressao
-      | expressao opArit expressao
+expressao:e1 ::= NUM
+		 {:
+				RESULT = new Expressao(NUM.value);
+		 :}
+      | IF expressao:e2 opRel expressao:e3 THEN expressao:e4 ELSE expressao:e5
+     	 {:
+			RESULT = new Expressao("if",e2 ,opRel,e3,"then", e4,"else", e5);
+		 :}
+      | expressao:e1 opArit expressao:e2
+     	 {:
+				RESULT = new Expressao(e1, opArit, e2);
+		 :}
       | ID expressao2
+      	 {:
+				RESULT = new Expressao(ID.value, e2);
+		 :}
       ;
 
 expressao2 ::= APARENT sequencia FPARENT
+		{:
+				RESULT = sequencia;
+		:}
       |
+      	{:
+				RESULT = new Expressao2(NULL);
+		:}
       ;
 
 opRel ::= MENOR
+		{:
+				RESULT = "<";
+		:}
       | MAIOR
+      	{:
+				RESULT = ">";
+		:}
       | IGUAL
+     	{:
+				RESULT = "==";
+		:}
       ;
 
 
 opArit ::= MAIS
+		{:
+				RESULT = "+";
+		:}
       | MENOS
+     	{:
+				RESULT = "-";
+		:}
       | MULT
+     	{:
+				RESULT = "*";
+		:}
       | DIVISAO
+     	{:
+				RESULT = "/";
+		:}
       ;
+      
+
+
