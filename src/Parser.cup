@@ -1,16 +1,21 @@
 import java_cup.runtime.*;
 
+parser code {:
+	private No arv = null;
+:}
+
 /* Terminais */
 
 terminal IF, THEN, ELSE, DEF;
 terminal MAIS, MENOS, MULT, DIVISAO;
+terminal ATR;
 terminal MENOR, MAIOR, IGUAL;
 terminal VIRG, PONTOVIRG, APARENT, FPARENT;
 terminal ID;
 terminal NUM;
 
 
-/* Não terminais */
+/* Nao terminais */
 non terminal programa;
 non terminal instrucao;
 non terminal instrucao2;
@@ -30,17 +35,50 @@ precedence left MULT, DIVISAO;
 /* Producoes */
 start with programa;
 
-programa ::= ID IGUAL NUM PONTOVIRG programa
-      | instrucao
+programa ::= ID ATR NUM PONTOVIRG programa:p
+			{:
+				arv = new No("programa");
+				arv.novoFilho("id", id.value);
+				arv.novoFilho("=");
+				arv.novoFilho("num", Integer);
+				arv.novoFilho(";");
+				arv.novoFilho(p);
+				RESULT = arv;
+			:}
+      | instrucao:i
+      	{:
+      		arv = new No("programa");
+			arv.novoFilho(i);
+      		RESULT = arv;
+      	:} 
       ;
 
-instrucao ::= definicao instrucao2;
+instrucao ::= definicao:d instrucao2:i2;
+			{:
+				arv = new No("instrucao");
+				arv.novoFilho(d);
+				arv.novoFilho(id2);
+				RESULT = arv;
+			
+			:}
 
-instrucao2 ::= PONTOVIRG instrucao
+instrucao2 ::= PONTOVIRG instrucao:i
+			{:
+				arv = new No("instrucao2");
+				arv.novoFilho(";");
+				arv.novoFilho(i);
+				RESULT = arv;
+			:}
       |
       ;
 
 definicao ::= DEF ID APARENT args FPARENT IGUAL expressao;
+			{:
+				arv = new No("definicao");
+				arv.novoFilho("def");
+				arv.novoFilho();
+				RESULT = arv;
+			:}
 
 args ::= ID args2;
 
