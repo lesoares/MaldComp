@@ -2,10 +2,13 @@ package arvoresintatica;
 
 import Visitor.Visitor;
 
-public class Args2 extends Prog1{
+public class Args2{
  public Args a;
  
- @Override
+ public Args2(){
+	 this.a = null;
+ }
+
  public void accept(Visitor v) {
   v.visit(this);
   

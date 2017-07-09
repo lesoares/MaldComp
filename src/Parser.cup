@@ -57,14 +57,14 @@ instrucao2 ::= PONTOVIRG instrucao:i
 			:}
       |
      		 {:
-				RESULT = NULL;
+				RESULT = new Instrucao2();
 			:}
       		
       ;
 
 definicao ::= DEF ID APARENT args FPARENT ATR expressao
 			{:
-				RESULT = new Def("def", ID.value, args, expressao);
+				RESULT = new Def(ID.value, args, expressao);
 			:}
 		;
 		
@@ -81,7 +81,7 @@ args2 ::= VIRG args
 			:}
       |
       		{:
-				RESULT = NULL;
+				RESULT = new Args2();
 			:}	
       ;
 
@@ -101,13 +101,13 @@ expressao:e1 ::= NUM
 		 :}
       | IF expressao:e2 opRel expressao:e3 THEN expressao:e4 ELSE expressao:e5
      	 {:
-			RESULT = new Expressao("if",e2 ,opRel,e3,"then", e4,"else", e5);
+				RESULT = new Expressao(e2, opRel, e3, e4, e5);
 		 :}
-      | expressao:e1 opArit expressao:e2
+      | expressao:e2 opArit expressao:e3
      	 {:
-				RESULT = new Expressao(e1, opArit, e2);
+				RESULT = new Expressao(e2, opArit, e3);
 		 :}
-      | ID expressao2
+      | ID expressao2:e2
       	 {:
 				RESULT = new Expressao(ID.value, e2);
 		 :}
@@ -119,7 +119,7 @@ expressao2 ::= APARENT sequencia FPARENT
 		:}
       |
       	{:
-				RESULT = new Expressao2(NULL);
+				RESULT = new Expressao2();
 		:}
       ;
 
@@ -140,19 +140,19 @@ opRel ::= MENOR
 
 opArit ::= MAIS
 		{:
-				RESULT = "+";
+				RESULT = 0;
 		:}
       | MENOS
      	{:
-				RESULT = "-";
+				RESULT = 1;
 		:}
       | MULT
      	{:
-				RESULT = "*";
+				RESULT = 2;
 		:}
       | DIVISAO
      	{:
-				RESULT = "/";
+				RESULT = 3;
 		:}
       ;
       
