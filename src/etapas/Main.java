@@ -1,4 +1,3 @@
-package etapas;
 
 import java.io.FileReader;
 import java.nio.file.Paths;
