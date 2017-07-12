@@ -44,11 +44,13 @@ Identificador = [a-zA-Z][a-zA-Z0-9_]*
 "*"							   { return new Symbol(Sym.MULT);}
 "/"							   { return new Symbol(Sym.DIVISAO);}
 
+/* Operadores de Atribuição */
+"=" 						   { return new Symbol(Sym.ATR);}
 
 /* Operadores de Comparacao */
 "<"							   { return new Symbol(Sym.MENOR);}
 ">"							   { return new Symbol(Sym.MAIOR);}
-"=" 						   { return new Symbol(Sym.IGUAL);}
+"==" 						   { return new Symbol(Sym.IGUAL);}
 
 /* Pontuacao */
 ","						       { return new Symbol(Sym.VIRG); }
@@ -56,18 +58,20 @@ Identificador = [a-zA-Z][a-zA-Z0-9_]*
 "("						       { return new Symbol(Sym.APARENT); }
 ")"						       { return new Symbol(Sym.FPARENT); }
 
+/* return new Symbol(Sym.FPARENT, yyline(), yycolumn(), new TOKEN */
+
 /* Numeros */
-{Numero}			               { return new Symbol(Sym.NUM); }
+{Numero}			                       { return new Symbol(Sym.NUM, new Integer(yytext())); }
 
 /* Identificadores */
-{Identificador}				               { return new Symbol(Sym.ID); }
+{Identificador}				               { return new Symbol(Sym.ID, yytext()); }
 
 /* Comentarios */
-{ComentarioGeral}                       { /* Nao faz nada */ }
+{ComentarioGeral}                    { /* Nao faz nada */ }
 {ComentarioLinha}			               { /* Nao faz nada */ }
 
 /* Espaco em branco */
-{Espaco}                               { /* Nao faz nada */ }
+{Espaco}                           	 { /* Nao faz nada */ }
 
 
 /* Erros */
