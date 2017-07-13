@@ -19,13 +19,10 @@ terminal NUM;
 /* Nao terminais */
 non terminal programa;
 non terminal instrucao;
-non terminal instrucao2;
 non terminal definicao;
 non terminal args;
-non terminal args2;
 non terminal sequencia;
 non terminal expressao;
-non terminal expressao2;
 non terminal opRel;
 non terminal opArit;
 
@@ -43,54 +40,37 @@ programa ::= ID ATR NUM PONTOVIRG programa:p
       | instrucao:i
       	{:
       		RESULT = i;
-      	:} 
+      	:}
       ;
 
-instrucao ::= definicao:d instrucao2:i2;
+instrucao ::= definicao:d PONTOVIRG instrucao:i2
 			{:
 				RESULT = new Instrucao(d, i2);
 			:}
+			|	definicao:d PONTOVIRG
+			;
 
-instrucao2 ::= PONTOVIRG instrucao:i
-			{:
-				RESULT = i;
-			:}
-      |
-     		 {:
-				RESULT = new Instrucao2();
-			:}
-      		
-      ;
 
 definicao ::= DEF ID APARENT args FPARENT ATR expressao
 			{:
 				RESULT = new Def(ID.value, args, expressao);
 			:}
 		;
-		
-		
-args ::= ID args2
-			{:
-				RESULT = new Args(ID.value, args2);
-			:}
-		;
 
-args2 ::= VIRG args
+
+args ::= ID VIRG args:a2
 			{:
-				RESULT = args;
+				RESULT = new Args(ID.value, a2);
 			:}
-      |
-      		{:
-				RESULT = new Args2();
-			:}	
-      ;
+		|		ID
+		;
 
 sequencia ::= expressao
 			{:
 				RESULT = expressao;
 			:}
       | sequencia VIRG expressao
-      		{:
+      	{:
 				RESULT = new Sequencia(sequencia, ",", expressao);
 			:}
       ;
@@ -107,21 +87,13 @@ expressao:e1 ::= NUM
      	 {:
 				RESULT = new Expressao(e2, opArit, e3);
 		 :}
-      | ID expressao2:e2
+      | ID APARENT sequencia FPARENT:e2
       	 {:
 				RESULT = new Expressao(ID.value, e2);
 		 :}
+		 |	ID
       ;
 
-expressao2 ::= APARENT sequencia FPARENT
-		{:
-				RESULT = sequencia;
-		:}
-      |
-      	{:
-				RESULT = new Expressao2();
-		:}
-      ;
 
 opRel ::= MENOR
 		{:
@@ -155,5 +127,3 @@ opArit ::= MAIS
 				RESULT = 3;
 		:}
       ;
-      
-
