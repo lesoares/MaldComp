@@ -1,0 +1,132 @@
+import java_cup.runtime.*;
+import arvoresintatica.*;
+
+
+parser code {:
+:}
+
+/* Terminais */
+
+terminal IF, THEN, ELSE, DEF;
+terminal MAIS, MENOS, MULT, DIVISAO;
+terminal ATR;
+terminal MENOR, MAIOR, IGUAL;
+terminal VIRG, PONTOVIRG, APARENT, FPARENT;
+terminal ID;
+terminal NUM;
+
+
+/* Nao terminais */
+non terminal programa;
+non terminal instrucao;
+non terminal definicao;
+non terminal args;
+non terminal sequencia;
+non terminal expressao;
+non terminal opRel;
+non terminal opArit;
+
+/* Precedencia */
+precedence left MAIS, MENOS;
+precedence left MULT, DIVISAO;
+
+/* Producoes */
+start with programa;
+
+programa ::= ID ATR NUM PONTOVIRG programa:p
+			{:
+				RESULT = new Programa(ID.value, NUM.value, p);
+			:}
+      | instrucao:i
+      	{:
+      		RESULT = i;
+      	:}
+      ;
+
+instrucao ::= definicao:d PONTOVIRG instrucao:i2
+			{:
+				RESULT = new Instrucao(d, i2);
+			:}
+			|	definicao:d PONTOVIRG
+			{:
+				RESULT = new Instrucao(d,null);
+			:}
+			;
+
+
+definicao ::= DEF ID APARENT args FPARENT ATR expressao
+			{:
+				RESULT = new Def(ID.value, args, expressao);
+			:}
+		;
+
+
+args ::= ID VIRG args:a2
+			{:
+				RESULT = new Args(ID.value, a2);
+			:}
+		|		ID
+		;
+
+sequencia ::= expressao
+			{:
+				RESULT = expressao;
+			:}
+      | sequencia VIRG expressao
+      	{:
+				RESULT = new Sequencia(sequencia, ",", expressao);
+			:}
+      ;
+
+expressao:e1 ::= NUM
+		 {:
+				RESULT = new Expressao(NUM.value);
+		 :}
+      | IF expressao:e2 opRel expressao:e3 THEN expressao:e4 ELSE expressao:e5
+     	 {:
+				RESULT = new Expressao(e2, opRel, e3, e4, e5);
+		 :}
+      | expressao:e2 opArit expressao:e3
+     	 {:
+				RESULT = new Expressao(e2, opArit, e3);
+		 :}
+      | ID APARENT sequencia FPARENT:e2
+      	 {:
+				RESULT = new Expressao(ID.value, e2);
+		 :}
+		 |	ID
+      ;
+
+
+opRel ::= MENOR
+		{:
+				RESULT = "<";
+		:}
+      | MAIOR
+      	{:
+				RESULT = ">";
+		:}
+      | IGUAL
+     	{:
+				RESULT = "==";
+		:}
+      ;
+
+
+opArit ::= MAIS
+		{:
+				RESULT = 0;
+		:}
+      | MENOS
+     	{:
+				RESULT = 1;
+		:}
+      | MULT
+     	{:
+				RESULT = 2;
+		:}
+      | DIVISAO
+     	{:
+				RESULT = 3;
+		:}
+      ;
