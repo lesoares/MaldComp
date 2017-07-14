@@ -106,15 +106,15 @@ expressao ::= NUM:n
 
 opRel ::= MENOR
 		{:
-				RESULT = "<";
+				RESULT = "0";
 		:}
       | MAIOR
       	{:
-				RESULT = ">";
+				RESULT = "1";
 		:}
       | IGUAL
      	{:
-				RESULT = "==";
+				RESULT = "2";
 		:}
       ;
 

@@ -411,7 +411,7 @@ class CUP$Parser$actions {
             {
               Object RESULT =null;
 		
-				RESULT = "<";
+				RESULT = "0";
 		
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("opRel",6, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
@@ -422,7 +422,7 @@ class CUP$Parser$actions {
             {
               Object RESULT =null;
 		
-				RESULT = ">";
+				RESULT = "1";
 		
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("opRel",6, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
@@ -433,7 +433,7 @@ class CUP$Parser$actions {
             {
               Object RESULT =null;
 		
-				RESULT = "==";
+				RESULT = "2";
 		
               CUP$Parser$result = parser.getSymbolFactory().newSymbol("opRel",6, ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$Parser$stack.peek()), RESULT);
             }
