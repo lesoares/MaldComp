@@ -1,14 +1,14 @@
 package arvoresintatica;
 
-import Visitor.Visitor;
+import visitor.*;
 
 public class Sequencia{
 	public Sequencia s;
 	public Expressao e;
 	
-	public Sequencia(Sequencia seq, Expressao exp) {
-		this.s = seq;
-		this.e = exp;
+	public Sequencia(Object seq, Object exp) {
+		this.s = (Sequencia) seq;
+		this.e = (Expressao) exp;
 	}
 	
 

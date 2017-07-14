@@ -1,14 +1,14 @@
 package arvoresintatica;
 
-import Visitor.Visitor;
+import visitor.*;
 
 public class Args{
- public Args2 a2;
+ public Args a2;
  public String id;
  
- public Args(String i, Args2 args2) {
+ public Args(String i, Object a2) {
   this.id = i;
-  this.a2 = args2;
+  this.a2 = (Args) a2;
  }
  
  public void accept(Visitor v) {

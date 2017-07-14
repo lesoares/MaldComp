@@ -1,14 +1,14 @@
 package arvoresintatica;
-import Visitor.*;
+import visitor.*;
 
-public class Programa extends Prog1{
+public class Programa {
 
 	Programa p;
 	String id;
 	int num;
 	
-	public Programa(String str, int i, Programa p2){
-		this.p = p2;
+	public Programa(String str, int i, Object p2){
+		this.p = (Programa) p2;
 		this.id = str;
 		this.num = i;
 	}
