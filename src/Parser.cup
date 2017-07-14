@@ -33,9 +33,9 @@ precedence left MULT, DIVISAO;
 /* Producoes */
 start with programa;
 
-programa ::= ID ATR NUM PONTOVIRG programa:p
+programa ::= ID:id ATR NUM:n PONTOVIRG programa:p
 			{:
-				RESULT = new Programa(ID.value, NUM.value, p);
+				RESULT = new Programa(id.value, n.value, p);
 			:}
       | instrucao:i
       	{:
@@ -54,16 +54,16 @@ instrucao ::= definicao:d PONTOVIRG instrucao:i
 			;
 
 
-definicao ::= DEF ID APARENT args:a FPARENT ATR expressao:e
+definicao ::= DEF ID:id APARENT args:a FPARENT ATR expressao:e
 			{:
-				RESULT = new Def(ID.value, a, e);
+				RESULT = new Def(id.value, a, e);
 			:}
 		;
 
 
-args ::= ID VIRG args:a
+args ::= ID:id VIRG args:a
 			{:
-				RESULT = new Args(ID.value, a);
+				RESULT = new Args(id.value, a);
 			:}
 		| ID:id
 			{:
@@ -93,9 +93,9 @@ expressao ::= NUM:n
      	 {:
 				RESULT = new Expressao(e2, opArit, e3);
 		 :}
-      | ID APARENT sequencia:seq FPARENT
+      | ID:id APARENT sequencia:seq FPARENT
       	 {:
-				RESULT = new Expressao(ID.value, seq);
+				RESULT = new Expressao(id.value, seq);
 		 :}
 	  |	ID:id
 		 {:
