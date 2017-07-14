@@ -1,14 +1,14 @@
 package arvoresintatica;
 
-import Visitor.Visitor;
+import visitor.*;
 
 public class Expressao {
 	public Expressao e2;
 	public Expressao e3;
 	public Expressao e4;
 	public Expressao e5;
-	public Expressao2 e2_1;
 	public String id;
+	public Sequencia seq;
 	public int valor;
 	public int opr;
 	public int tipo;
@@ -22,6 +22,27 @@ public class Expressao {
 		this.e5 = e5;
 		this.opr = opr;
 		this.tipo = 1;
+		
+		switch (this.opr) {
+			case 0 :
+				if (e2.valor < e3.valor)
+					this.valor = e4.valor;
+				else
+					this.valor = e5.valor;
+				break;
+			case 1 :
+				if (e2.valor > e3.valor)
+					this.valor = e4.valor;
+				else
+					this.valor = e5.valor;
+				break;
+			case 2 :
+				if (e2.valor == e3.valor)
+					this.valor = e4.valor;
+				else
+					this.valor = e5.valor;
+				break;
+		}
 	}
 	
 	//Tipo 2 : atr = e2, opr, e3
@@ -46,18 +67,11 @@ public class Expressao {
 		}
 	}
 	
-	//Tipo 3 : atr = num
-	public Expressao(int num){
-		this.valor = num;
-		this.tipo = 3;
-	}
-	
-	
-	//Tipo 4 : atr = id, e2_1
-	public Expressao(String str, Expressao2 e2){
+	//Tipo 3 : atr = id, e2_1
+	public Expressao(String str, Sequencia seq){
 		this.id = str;
-		this.e2_1 = e2;
-		this.tipo = 4;
+		this.seq = seq;
+		this.tipo = 3;
 	}
 	
 	
